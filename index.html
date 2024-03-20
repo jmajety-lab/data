@@ -1,0 +1,259 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Highlight a Highway</title>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://js.arcgis.com/4.23/"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div id="inputForm">
+      <form>
+        <!-- Location Type dropdown -->
+        <label for="location-type">Location Type</label>
+        <br>
+        <select id="location-type" name="location-type" onchange="showConditionalInputs(this.value)">
+          <option value="">Please select</option>
+          <option value="segment">Segment</option>
+          <option value="ramp">Ramp</option>
+          <option value="intersection">Intersection</option>
+          
+          <option value="cross-county">Cross County</option>
+        </select> 
+        <br>
+        <!-- Additional inputs for 'Segment' option -->
+       <div id="segment-options" class="hidden">
+        <div class = "grid ">
+          <div class="county">
+            <label for="segment-county" >County</label>
+          </div>
+            <label id="segment-county" name="segment-county">
+            <input type="text" id="segment-county-number" name="segment-county-number">
+            </select>
+            </div>
+            <br>
+            <div class = "grid">
+            <label for="segment-prefix">Prefix</label>
+            <label id="segment-prefix" name="segment-prefix">
+              <input type="text" id="segment-prefix-number" name="segment-prefix-number">
+              </select>
+              </div>
+              <br>
+              <div class = "grid">
+              <label for="segment-route-number">Route number</label>
+              <input type="text" id="segment-route-number" name="segment-route-number">
+              </div>
+              <br>
+              <div class = "grid">
+              <label for="segment-suffix">Suffix</label>
+              <label id="segment-suffix" name="segment-suffix">
+              <input type="text" id="segment-suffix-number" name="segment-suffix-number">
+              </div>
+              <br>
+              <div class = "grid">
+              <label for="segment-mp-from">MP from</label>
+              <input type="text" id="segment-mp-from" name="segment-mp-from">
+              </div>
+              <br>
+              <div class = "grid">
+                <label for="segment-mp-to">MP to</label>
+                <input type="text" id="segment-mp-to" name="segment-mp-to">
+              </div>
+                <br>
+                <div class = "grid">
+                <label for="countermeasures">Countermeasures</label>
+                <input type="text" id="countermeasures" name="countermeasures" placeholder="Enter countermeasures">
+                </div>
+                <br>
+                <div class = "grid">
+                <label for="start-date">Construction starting date</label>
+                <input type="date" id="segment-start-date" name="segment-start-date">
+                </div>
+                <br>
+                <div class = "grid">
+                <label for="complete-date">Construction complete date</label>
+                <input type="date" id="segment-complete-date" name="segment-complete-date">
+                </div>
+                <br>
+              <button type="button" onclick=highlightRoute()>Plot on Map</button>
+              <button type="button" id="saveProjectButton">Continue to crash data collection</button>
+             
+        </div>
+
+        <!-- Additional inputs for 'Intersection' option -->
+        <div id="intersection-options" class="hidden">
+          <div class = "grid ">
+           
+            <label for="intersection-county">County</label>
+          
+            <input type="text" id="intersection-county" name="intersection-county">
+            </div>
+            <br>
+            <div class = "grid">
+            <label for="intersection-prefix">Prefix</label>
+            <input type="text" id="intersection-prefix" name="intersection-prefix">
+            </div>
+            <br>
+            <div class="grid">
+            <label for="intersection-route-number">Route number</label>
+            <input type="text" id="intersection-route-number" name="intersection-route-number">
+            </div>
+            <br>
+            <div class="grid">
+            <label for="intersection-suffix">Suffix</label>
+            <input type="text" id="intersection-suffix" name="intersection-suffix">
+            </div>
+            <br>
+            <div class="grid">
+            <label for="intersecting-milepoint">Milepoint</label>
+            <input type="text" id="intersecting-milepoint" name="intersecting-milepoint">
+            </div>
+            <br>
+            <div class="grid">
+            <label for="intersecting-radius">Radius</label>
+            <input type="text" id="intersecting-radius" name="intersecting-radius">
+            </div>
+            <br>
+            <div class="grid">
+            <label for="countermeasures">Countermeasures</label>
+            <input type="text" id="countermeasures" name="countermeasures" placeholder="Enter countermeasures">
+            </div>
+            <br>
+            <div class="grid">
+            <label for="start-date">Construction starting date</label>
+            <input type="date" id="start-date" name="start-date">
+            </div>
+            <br>
+            <div class="grid">
+            <label for="complete-date">Construction complete date</label>
+            <input type="date" id="complete-date" name="complete-date">
+            </div>
+            <br>
+          <button type="button" onclick=highlightRoute3()>Plot on Map</button>
+          <input type="submit" value="Continue to crash data collection">
+          
+        </div>
+
+        <div id="ramp-options" class="hidden">
+          <div class="grid">
+            <label for="ramp-county">County</label>
+            <input type="text" id="ramp-county" name="ramp-county">
+            </div>
+            <br>
+            <div class="grid">
+            <label for="ramp-prefix">Prefix</label>
+            <input type="text" id="ramp-prefix" name="ramp-prefix">
+            </div>
+            <br>
+            <div class="grid">
+            <label for="ramp-route-number">Route number</label>
+            <input type="text" id="ramp-route-number" name="ramp-route-number">
+            </div>
+            <br>
+            <div class="grid">
+            <label for="ramp-exit-number">Exit number</label>
+            <input type="text" id="ramp-exit-number" name="ramp-exit-number" placeholder="Enter exit number">
+            </div>
+            <br>
+            <div class="grid">
+            <label for="ramp-number">Ramp number</label>
+            <input type="text" id="ramp-number" name="ramp-exit-number" placeholder="Enter exit number">
+            </div>
+            <br>
+            <div class="grid">
+            <label for="countermeasures">Countermeasures</label>
+            <input type="text" id="countermeasures" name="countermeasures" placeholder="Enter countermeasures">
+            </div>
+            <br>
+            <div class="grid">
+            <label for="start-date">Construction starting date</label>
+            <input type="date" id="start-date" name="start-date">
+            </div>
+            <br>
+            <div class="grid">
+            <label for="complete-date">Construction complete date</label>
+            <input type="date" id="complete-date" name="complete-date">
+            </div>
+            <br>
+          <button type="button" onclick=highlightRoute2()>Plot on Map</button>
+          <input type="submit" value="Continue to crash data collection">
+          
+        </div>
+
+        <div id="cross-county-options" class="hidden">
+          <div class="grid">
+            <label for="cross-county1">County 1</label>
+            <select id="cross-county1" name="cross-county1">
+              <option value="allegany">Allegany</option>
+              <!-- other counties -->
+            </select>
+            </div>
+            <br>
+            <div class="grid">
+            <label for="cross-county2">County 2</label>
+            <select id="cross-county2" name="cross-county2">
+              <option value="washington">Washington</option>
+              <!-- other counties -->
+            </select>
+            </div>
+            <br>
+            <div class="grid">
+            <label for="cross-prefix">Prefix</label>
+            <select id="cross-prefix" name="cross-prefix">
+              <option value="us">US</option>
+              <!-- other prefixes -->
+            </select>
+            </div>
+            <br>
+            <div class="grid">
+            <label for="cross-route-number">Route number</label>
+            <select id="cross-route-number" name="cross-route-number">
+              <option value="1">1</option>
+              <!-- other route numbers -->
+            </select>
+            </div>
+            <br>
+            <div class="grid">
+            <label for="mp-in-county1">MP in County 1</label>
+            <input type="text" id="mp-in-county1" name="mp-in-county1" placeholder="Enter MP for County 1">
+            </div>
+            <br>
+            <div class="grid">
+            <label for="mp-in-county2">MP in County 2</label>
+            <input type="text" id="mp-in-county2" name="mp-in-county2" placeholder="Enter MP for County 2">
+            </div>
+            <br>
+            <div class="grid">
+            <label for="countermeasures">Countermeasures</label>
+            <input type="text" id="countermeasures" name="countermeasures" placeholder="Enter countermeasures">
+            </div>
+            <br>
+            <div class="grid">
+            <label for="start-date">Construction starting date</label>
+            <input type="date" id="start-date" name="start-date">
+            </div>
+            <br>
+            <div class="grid">
+            <label for="complete-date">Construction complete date</label>
+            <input type="date" id="complete-date" name="complete-date">
+            </div>
+            <br>
+          <button type="button" onclick=highlightRoute()>Plot on Map</button>
+          <input type="submit" value="Continue to crash data collection">
+         
+        </div>
+
+        <!-- Common form entries -->
+
+      </form>
+    </div>
+    <div id="viewDiv"></div>
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>

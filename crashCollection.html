@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data collection - Crash data</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body class="bg-gray-200 font-sans tracking-normal">
+    <div class="container mx-auto p-2">
+        <!-- Title -->
+        <h1 class="text-3xl font-bold underline text-center mb-4">Data collection - Crash data</h1>
+
+        <!-- Time Range Section -->
+        <div class="grid grid-cols-1 md:grid-cols-6 mb-4 text-center">
+            <!-- Time Range Box 1 -->
+            <div class="bg-red-300 p-4 rounded-lg h-3/4 items-center flex-cols">
+                <label class="font-bold ">Before Period</label>
+                <div class="flex items-center justify-between space-x-1 ">
+                    
+                    <input type="text" id="yearInput" class=" form-input bg-gray-200 text-gray-500 cursor-not-allowed w-12 border-2 border-red-500 text-red-600" value="0" readonly>
+                    <span>Yr.</span>    
+                    <input type="text" id="monthInput" class=" form-input bg-gray-200 text-gray-500 cursor-not-allowed w-12 border-2 border-red-500 text-red-600" value="0" readonly>
+                    <span>Mo.</span>
+                </div>
+                <br>
+                <input type="range" id="monthSlider" min="0" max="120" value="6" class="w-full md:w-3/4">
+                <input type="text" id="startDateInput" class="form-input bg-gray-200 text-gray-500 cursor-not-allowed mt-1 w-full md:w-3/4 border-2 border-red-500 text-red-600" value="0"  readonly>
+            </div>
+
+            <div class="bg-green-300 rounded-lg  mx-2 w-3/4 p-4 h-3/4">
+                <div class="flex flex-col justify-between">
+                    <div class="w-full">
+                        <label class="font-bold">Buffer time</label>
+                        <div class="flex items-center space-x-1">
+                            <input type="text" id="bufferMonthInput" class="form-input bg-gray-200 text-gray-500 cursor-not-allowed w-12 border-2 border-green-500 text-green-600" value="0">
+                            <span>Mo.</span>
+                            
+                        </div>
+                    </div>
+                    <br>
+                    <input type="range" id="bufferMonthSlider" min="0" max="11" value="0" class="w-3/4">
+                    <div class="w-full mt-4">
+                        <input type="text" id="bufferMonthDate" class="form-input bg-gray-200 text-gray-500 cursor-not-allowed mt-1 w-3/4 border-2 border-green-500 text-green-600" value="2017/02">
+                    </div>
+                </div>
+            </div>
+
+            <div class="ml-[-50px] h-3/4">
+                <p class="text-xl"><b>Construction date</b></p>
+                <br>
+                <!-- Construction start and end date as read-only inputs -->
+                <input type="text" id="constructionStartDate" class="form-input bg-gray-200 text-gray-500 cursor-not-allowed text-md border w-2/5" value="2016/05" readonly>
+                <span class="text-xl" >-</span>
+                <input type="text" id="constructionEndDate" class="text-right form-input bg-gray-200 text-gray-500 cursor-not-allowed text-md border w-2/5" value="2016/08" readonly>
+            </div>
+
+            <div class="bg-green-300 rounded-lg w-3/4 p-2 h-3/4 mx-0">
+                <div class="flex flex-col justify-between">
+                    <div class="w-full">
+                        <label class="font-bold">Buffer time</label>
+                        <div class="flex items-center space-x-1">
+                            <input type="text" id="afterBufferMonthInput" class="form-input bg-gray-200 text-gray-500 cursor-not-allowed w-12 border-2 border-green-500 text-green-600" readonly value="6">
+                            <span>Mo.</span>
+                        </div>
+                    </div>
+                    <br>
+                    <input type="range" id="afterBufferMonthSlider" min="0" max="11" value="6" class="w-3/4">
+                    <input type="text" id="afterBufferDateDisplay" class="form-input bg-gray-200 text-gray-500 cursor-not-allowed mt-1 w-3/4 border-2 border-green-500 text-green-600" readonly value="">
+                </div>
+            </div>
+            
+            <div class="w-11/12 bg-orange-300 p-4 rounded-lg h-3/4 ml-[-50px]">
+                <label class="font-bold">After Period</label>
+                <div class="flex items-center space-x-1">
+                    <input type="text" id="yearInputAfter" class="form-input bg-gray-200 text-gray-500 cursor-not-allowed w-12 border-2 border-orange-500 text-orange-600" value="0" readonly>
+                    <span>Yr.</span>    
+                    <input type="text" id="monthInputAfter" class=" form-input bg-gray-200 text-gray-500 cursor-not-allowed w-12 border-2 border-orange-500 text-orange-600" value="0" readonly>
+                    <span>Mo.</span>
+                </div>
+                <br>
+                <input type="range" id="monthSliderAfter" min="0" max="120" value="0" class="w-full md:w-3/4">
+                <input type="text" id="endDateInput" class="form-input bg-gray-200 text-gray-500 cursor-not-allowed mt-1 w-full md:w-3/4 border-2 border-orange-500 text-orange-600" value="" readonly>
+            </div>
+
+            <div class="mb-4 w-120 mx-5 border-2 ml-[-50px]">
+                <h2 class="font-bold mb-2">Crash type</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-20  ">
+                    <!-- Single checkbox container for better alignment and spacing -->
+                    <div>
+                        <label class="px-2 py-3 inline-flex items-center" id="selectAll">
+                            <input type="checkbox" class="form-checkbox" checked>
+                            <span class="ml-2">All</span>
+                        </label>
+                    </div>
+    
+                    <div>
+                        <label class="px-2 py-2 inline-flex items-center">
+                            <input type="checkbox" class="form-checkbox crash-type">
+                            <span class="ml-2">Angle</span>
+                        </label>
+                    </div>
+                    <div>
+                        <label class=" py-2 inline-flex items-center">
+                            <input type="checkbox" class="form-checkbox crash-type">
+                            <span class="ml-2">Sideswipe</span>
+                        </label>
+                    </div>
+                    <div>
+                        <label class="py-2 inline-flex items-center">
+                            <input type="checkbox" class="form-checkbox crash-type">
+                            <span class="ml-2">Rear end</span>
+                        </label>
+                    </div>
+                    <div>
+                        <label class="py-2 inline-flex items-center">
+                            <input type="checkbox" class="form-checkbox crash-type">
+                            <span class="ml-2">Opposite direction</span>
+                        </label>
+                    </div>
+    
+                    <div>
+                        <label class="py-2 inline-flex items-center">
+                            <input type="checkbox" class="form-checkbox crash-type">
+                            <span class="ml-2">Fixed object</span>
+                        </label>
+                    </div>
+    
+                    <div>
+                        <label class="py-2  inline-flex items-center">
+                            <input type="checkbox" class="form-checkbox crash-type">
+                            <span class="ml-2">Pedestrian</span>
+                        </label>
+                    </div>
+    
+                    <div>
+                        <label class="py-2 px-2 inline-flex items-center ">
+                            <input type="checkbox" class="form-checkbox crash-type">
+                            <span class="ml-2">Left turn</span>
+                        </label>
+                    </div>
+                    
+                    <div>
+                        <label class="py-2 inline-flex items-center">
+                            <input type="checkbox" class="form-checkbox crash-type">
+                            <span class="ml-2">Others</span>
+                        </label>
+                    </div>
+                    <!-- Continue adding more as needed -->
+                </div>
+                
+            </div>
+
+        
+        
+        </div>
+        <!-- Crash Data Extraction Section -->
+        <div class="mb-4 my-[-60px]">
+            <button class="bg-blue-500 hover:bg-blue-700 w-2/4 h-1/4  text-white font-bold py-2 px-4 rounded" id="excCrash">
+                Extract crash data
+            </button>
+        </div>
+
+        <!-- Crash Data Details Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <!-- Crash Severity Table -->
+            <div class="bg-white p-4 rounded-lg shadow-lg">
+                <h2 class="font-bold text-xl mb-2">Crash severity</h2>
+                <table class="w-full text-left">
+                    <tr >
+                        <th class="p-3">Severity</th>
+                        <th>Before period</th>
+                        <th>After period</th>
+                    </tr>
+                        <td class="p-2">Fatal</td>
+                        <td><input type="text" id="before-5" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2"></td>
+                        <td><input type="text" id="after-5" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2"></td>
+                    </tr>
+                    <tr>
+                        <td class="p-2">Serious Injury</td>
+                        <td><input type="text" id="before-4" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2"></td>
+                        <td><input type="text" id="after-4" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2"></td>
+                    </tr>
+                    <tr>
+                        <td class="p-2">Minor Injury</td>
+                        <td><input type="text" id="before-3" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2"></td>
+                        <td><input type="text" id="after-3" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2"></td>
+                    </tr>
+                    <tr>
+                        <td class="p-2">Possible Injury</td>
+                        <td><input type="text" id="before-2" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2"></td>
+                        <td><input type="text" id="after-2" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2"></td>
+                    </tr>
+                    <tr>
+                        <td class="p-2">Property damage only</td>
+                        <td><input type="text" id="before-1"  class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2"></td>
+                        <td><input type="text" id="after-1"  class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2"></td>
+                    </tr>
+                    <!-- Repeat rows as needed -->
+                </table>
+            </div>
+
+            <!-- Major Crash Types Table -->
+            <div class="bg-white p-4 rounded-lg shadow-lg">
+                <h2 class="font-bold text-xl mb-2">Major crash types</h2>
+                <table class="w-full text-left">
+                    <tr>
+                        <th>Type</th>
+                        <th>Before period</th>
+                        <th>After period</th>
+                    </tr>
+                    <tr>
+                        <td>Fixed object</td>
+                        <td><input type="text" id="before-fixed-object-offroad" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2 readonly-input" readonly></td>
+                        <td><input type="text" id="after-fixed-object-offroad" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2 readonly-input" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>Left Turn</td>
+                        <td><input type="text" id="before-left-turn" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2 readonly-input" readonly></td>
+                        <td><input type="text" id="after-left-turn" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2 readonly-input" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>Opposite direction</td>
+                        <td><input type="text" id="before-opposite-direction" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2 readonly-input" readonly></td>
+                        <td><input type="text" id="after-opposite-direction" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2 readonly-input" readonly></td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Angle</td>
+                        <td><input type="text" id="before-angle" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2 readonly-input" readonly></td>
+                        <td><input type="text" id="after-angle" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2 readonly-input" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>Rear end</td>
+                        <td><input type="text" id="before-rear-end" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2 readonly-input" readonly></td>
+                        <td><input type="text" id="after-rear-end" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2 readonly-input" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>Pedestrian</td>
+                        <td><input type="text" id="before-pedestrian" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2 readonly-input" readonly></td>
+                        <td><input type="text" id="after-pedestrian" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2 readonly-input" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>Sideswipe</td>
+                        <td><input type="text" id="before-sideswipe" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2 readonly-input" readonly></td>
+                        <td><input type="text" id="after-sideswipe" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2 readonly-input" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>Others</td>
+                        <td><input type="text" id="before-others" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2 readonly-input" readonly></td>
+                        <td><input type="text" id="after-others" class="bg-gray-200 text-gray-500 cursor-not-allowed mt-1 border-2 readonly-input" readonly></td>
+                    </tr>
+                    <!-- Repeat rows as needed -->
+                </table>
+                
+            </div>
+        </div>
+
+        <!-- Crash Type Checklist Section -->
+        
+
+        <!-- Buttons -->
+        <div class="flex justify-between">
+            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                Back to project selection
+            </button>
+            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onclick="window.location.href = 'templates/display_crash.html';">
+                Continue to site data collection
+            </button>
+            
+        </div>
+    </div>
+    <script>
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to adjust the buffer date based on the slider value
+    function adjustBufferDate() {
+        // Extract the construction start date
+        var constructionStartDateValue = document.getElementById('constructionStartDate').value;
+        var [year, month] = constructionStartDateValue.split('/');
+        var constructionStartDate = new Date(year, month - 1, 1); // Months are 0-indexed
+
+        // Read the current value of the slider to determine months to subtract
+        var monthsToSubtract = parseInt(document.getElementById('bufferMonthSlider').value);
+        
+        // Calculate the new buffer date by subtracting months
+        constructionStartDate.setMonth(constructionStartDate.getMonth() - monthsToSubtract);
+
+        // Update the bufferMonthInput to reflect the slider's value
+        document.getElementById('bufferMonthInput').value = monthsToSubtract;
+
+        // Format and set the new buffer date
+        var newBufferYear = constructionStartDate.getFullYear();
+        var newBufferMonth = ('0' + (constructionStartDate.getMonth() + 1)).slice(-2); // Adding leading zero if needed
+        document.getElementById('bufferMonthDate').value = `${newBufferYear}/${newBufferMonth}`;
+    }
+
+    // Initialize with the current slider value
+    adjustBufferDate();
+
+    // Add event listener to the slider to adjust buffer date on input change
+    document.getElementById('bufferMonthSlider').addEventListener('input', adjustBufferDate);
+});
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to adjust the after buffer date based on the slider value
+    function adjustAfterBufferDate() {
+        // Extract the construction end date
+        var constructionEndDateValue = document.getElementById('constructionEndDate').value;
+        var [year, month] = constructionEndDateValue.split('/');
+        var constructionEndDate = new Date(year, month - 1, 1); // Months are 0-indexed
+
+        // Read the current value of the slider to determine months to add
+        var monthsToAdd = parseInt(document.getElementById('afterBufferMonthSlider').value);
+        
+        // Calculate the new after buffer date by adding months
+        constructionEndDate.setMonth(constructionEndDate.getMonth() + monthsToAdd);
+
+        // Update the afterBufferMonthInput to reflect the slider's value
+        document.getElementById('afterBufferMonthInput').value = monthsToAdd;
+
+        // Format and set the new after buffer date
+        var newAfterBufferYear = constructionEndDate.getFullYear();
+        var newAfterBufferMonth = ('0' + (constructionEndDate.getMonth() + 1)).slice(-2); // Adding leading zero if needed
+        document.getElementById('afterBufferDateDisplay').value = `${newAfterBufferYear}/${newAfterBufferMonth}`;
+    }
+
+    // Initialize with the current slider value
+    adjustAfterBufferDate();
+
+    // Add event listener to the after buffer month slider
+    document.getElementById('afterBufferMonthSlider').addEventListener('input', adjustAfterBufferDate);
+});
+
+
+
+
+
+document.getElementById('monthSlider').addEventListener('input', function(e) {
+    var totalMonths = parseInt(e.target.value);
+    var years = Math.floor(totalMonths / 12);
+    var months = totalMonths % 12;
+
+    // Update the year and month inputs
+    document.getElementById('yearInput').value = years;
+    document.getElementById('monthInput').value = months;
+
+    // Parse the buffer time start date
+    var bufferDateInputValue = document.getElementById('bufferMonthDate').value; // Assuming this is the ID for the buffer date input
+    var [bufferYear, bufferMonth] = bufferDateInputValue.split('/').map(Number);
+    
+    var bufferDate = new Date(bufferYear, bufferMonth - 1); // JavaScript months are 0-indexed
+    bufferDate.setMonth(bufferDate.getMonth() - totalMonths);
+
+    var newStartYear = bufferDate.getFullYear();
+    var newStartMonth = ('0' + (bufferDate.getMonth() + 1)).slice(-2); // Ensure two-digit format
+    var newStartDate = newStartYear + '/' + newStartMonth;
+
+    document.getElementById('startDateInput').value = newStartDate;
+});
+document.addEventListener('DOMContentLoaded', function() {
+    const selectAllCheckbox = document.getElementById('selectAll');
+    const crashTypeCheckboxes = document.querySelectorAll('.crash-type');
+
+    function updateSelectAllCheckbox() {
+        // Check if every crash-type checkbox is checked
+        const allChecked = Array.from(crashTypeCheckboxes).every(checkbox => checkbox.checked);
+        selectAllCheckbox.checked = allChecked;
+    }
+
+    function toggleCrashTypeCheckboxes(checked) {
+        // Set all crash-type checkboxes based on the checked parameter
+        crashTypeCheckboxes.forEach(checkbox => {
+            checkbox.checked = checked;
+        });
+    }
+
+    // When "All" checkbox state changes
+    selectAllCheckbox.addEventListener('change', function() {
+        // Check or uncheck all crash-type checkboxes
+        toggleCrashTypeCheckboxes(this.checked);
+    });
+
+    // For each individual crash type checkbox
+    crashTypeCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            // If unchecking a box, uncheck "All" checkbox
+            if (!this.checked) {
+                selectAllCheckbox.checked = false;
+            } else {
+                // Otherwise, if all boxes are now checked, also check "All" checkbox
+                updateSelectAllCheckbox();
+            }
+        });
+    });
+
+});
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to calculate and update dates based on slider input
+    function updateAfterPeriodDates() {
+        // Retrieve the current buffer date
+        const bufferDateValue = document.getElementById('afterBufferDateDisplay').value;
+        const bufferDate = new Date(bufferDateValue);
+
+        // Get the total months from the slider
+        const totalMonths = parseInt(document.getElementById('monthSliderAfter').value, 10);
+
+        // Calculate the new date after adding the months from the slider
+        const newDate = new Date(bufferDate.setMonth(bufferDate.getMonth() + totalMonths));
+
+        // Calculate and update years and months for the After Period
+        const yearsAfter = Math.floor(totalMonths / 12);
+        const monthsAfter = totalMonths % 12;
+
+        // Update year and month inputs
+        document.getElementById('yearInputAfter').value = yearsAfter;
+        document.getElementById('monthInputAfter').value = monthsAfter;
+
+        // Format and display the new end date
+        const formattedDate = `${newDate.getFullYear()}/${String(newDate.getMonth() + 1).padStart(2, '0')}`;
+        document.getElementById('endDateInput').value = formattedDate;
+    }
+
+    // Listen for changes on the monthSliderAfter
+    document.getElementById('monthSliderAfter').addEventListener('input', updateAfterPeriodDates);
+
+    // Initial update in case the page is loaded with a preset value on the slider
+    updateAfterPeriodDates();
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Retrieve the stored form data
+    var formData = JSON.parse(localStorage.getItem('formData'));
+
+    // Function to format date from "YYYY-MM-DD" to "YYYY/MM"
+    function formatDate(inputDate) {
+        var date = new Date(inputDate);
+        var year = date.getFullYear();
+        var month = ('0' + (date.getMonth() + 1)).slice(-2); // Add leading zero if needed
+        return year + '/' + month;
+    }
+
+    // Check if formData exists and has the keys for start and complete dates
+    if (formData) {
+        // Update the construction start date input with the value from formData
+        if (formData['segment-start-date']) {
+            var formattedStartDate = formatDate(formData['segment-start-date']);
+            document.getElementById('constructionStartDate').value = formattedStartDate;
+        }
+
+        // Update the construction end date input with the value from formData
+        if (formData['segment-complete-date']) {
+            var formattedEndDate = formatDate(formData['segment-complete-date']);
+            document.getElementById('constructionEndDate').value = formattedEndDate;
+        }
+
+        // For demonstration, log the formData to the console
+        
+
+        // Optionally, clear the saved data if it's no longer needed
+    }
+});
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    var submitButton = document.getElementById("excCrash"); // Your submit button's ID
+    var formData2 = JSON.parse(localStorage.getItem('formData'));
+    submitButton.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        // Create a new FormData object
+        var formData = new FormData();
+        console.log(formData2['segment-start-date']);
+        console.log(formData2['segment-complete-date'])
+        console.log(formData2);
+        console.log(formData2['segment-route-number']);
+        console.log(formData2['segment-suffix-number']);
+        console.log(formData2['segment-prefix-number']);
+        console.log(formData2['segment-county-number']);
+        console.log(formData2['segment-mp-from']);
+        console.log(formData2['segment-mp-to']);
+        console.log(document.getElementById('yearInput').value);
+        console.log(document.getElementById('monthInput').value);
+        console.log(document.getElementById('bufferMonthInput').value);
+        console.log(document.getElementById('afterBufferMonthInput').value);
+        console.log(document.getElementById('yearInputAfter').value);
+        console.log(document.getElementById('monthInputAfter').value);
+        var seg=formData2['segment-suffix-number'];
+        if(formData2['segment-suffix-number']){
+            seg=formData2['segment-suffix-number'];
+        }
+        else{
+            seg='(no suffix)'
+        }
+        console.log(seg)
+        // Append form data
+        formData.append('s_to_date', formData2['segment-start-date']); // Adjust these values as needed
+        formData.append('s_from_date', formData2['segment-complete-date']);
+        formData.append('route_number', formData2['segment-route-number']);
+        formData.append('route_suffix', seg);
+        formData.append('route_type', formData2['segment-prefix-number']);
+        formData.append('COUNTY', formData2['segment-county-number']);
+        formData.append('milepoint_from', formData2['segment-mp-from']);
+        formData.append('milepoint_to', formData2['segment-mp-to']);
+        formData.append('bpyears', document.getElementById('yearInput').value);
+        formData.append('bpmonth', document.getElementById('monthInput').value);
+        formData.append('bbtmonths', document.getElementById('bufferMonthInput').value);
+        formData.append('abtmonths', document.getElementById('afterBufferMonthInput').value);
+        formData.append('Apyears', document.getElementById('yearInputAfter').value);
+        formData.append('Apmonth', document.getElementById('monthInputAfter').value);
+        formData.append('checkbox_values', ("Rear end","Angle","Left turn"));
+        // Add remaining values similarly...
+        // For `checkbox_values`, assuming it's a list of checkbox inputs:
+        //document.querySelectorAll('input[name="checkboxName"]:checked').forEach((checkbox) => {
+          //  formData.append('checkbox_values', checkbox.value);
+       // });
+
+        // For session variables like 'milepoint', 'radius', etc., you'd need to have them stored in the client-side
+        // possibly as hidden inputs, localStorage, or another client-side state management solution.
+
+        // Use fetch API to send the POST request
+        fetch('http://127.0.0.1:5000/segment/crash/submit', {
+            method: 'POST',
+            body: formData,
+            
+            
+        })
+        .then(response => {if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json(); // Parse the JSON in the response
+})
+.then(data => {
+    console.log(data); // Now 'data' is the parsed JSON object
+                for (const [key, value] of Object.entries(data.beforeperiodcrash)) {
+                    const beforeInput = document.getElementById(`before-${key.toLowerCase().replace(/\s+/g, '-')}`);
+                    console.log(beforeInput)
+                    if (beforeInput) beforeInput.value = value;
+                }
+
+                for (const [key, value] of Object.entries(data.afterperiodcrash)) {
+                    const afterInput = document.getElementById(`after-${key.toLowerCase().replace(/\s+/g, '-')}`);
+                    if (afterInput) afterInput.value = value;
+                }
+                for (const [key, value] of Object.entries(data.beforeperiodseverity)) {
+                    const afterInput = document.getElementById(`before-${key.toLowerCase().replace(/\s+/g, '-')}`);
+                    if (afterInput) afterInput.value = value;
+                }  
+                for (const [key, value] of Object.entries(data.afterperiodseverity)) {
+                    const afterInput = document.getElementById(`after-${key.toLowerCase().replace(/\s+/g, '-')}`);
+                    if (afterInput) afterInput.value = value;
+                }  
+})  
+.catch(error => console.error('Error:', error));
+      
+    });
+});
+
+
+
+
+
+
+        </script>
+        
+</body>
+</html>

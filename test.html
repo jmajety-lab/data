@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/danfojs@1.1.2/lib/bundle.js"></script>
+
+
+</head>
+<body>
+  <table id="csvTable"><!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/danfojs@1.1.2/lib/bundle.js"></script>
+    </head>
+    <body>
+    <table id="csvTable">
+        <thead>
+            <tr></tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    
+    <div id="countyColumn"></div>
+    
+    <script>
+    
+    </script>
+    </body>
+    </html>
+    
+    <thead>
+        <tr></tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script>
+
+dfd.readCSV("https://code.umd.edu/jmajety/data/-/raw/main/final_dropdown.csv?ref_type=heads")
+.then(df => {
+       // Display the 'COUNTY' column separately
+       const countyColumn = document.getElementById('countyColumn');
+       df['COUNTY'].values.forEach(value => {
+           const div = document.createElement('div');
+           div.textContent = value;
+           countyColumn.appendChild(div);
+       });
+   })
+   .catch(err => {
+       console.log(err);
+   });
+
+</script>
+</body>
+</html>
